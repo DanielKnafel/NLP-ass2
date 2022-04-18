@@ -1,3 +1,4 @@
+import argparse
 from collections import defaultdict
 import random
 
@@ -5,6 +6,7 @@ class PCFG(object):
     def __init__(self):
         self._rules = defaultdict(list)
         self._sums = defaultdict(float)
+        self._parse_tree = []
 
     def add_rule(self, lhs, rhs, weight):
         assert(isinstance(lhs, str))
@@ -28,13 +30,17 @@ class PCFG(object):
     def is_terminal(self, symbol): return symbol not in self._rules
 
     def gen(self, symbol):
-        if self.is_terminal(symbol): return symbol
+        if self.is_terminal(symbol): 
+            self._parse_tree.append(('term', symbol))
+            return symbol
         else:
             expansion = self.random_expansion(symbol)
+            self._parse_tree.append(('non-term', symbol))
             return " ".join(self.gen(s) for s in expansion)
 
     def random_sent(self):
-        return self.gen("ROOT")
+        self._parse_tree.clear()
+        return (self.gen("ROOT"), self._parse_tree)
 
     def random_expansion(self, symbol):
         """
@@ -46,14 +52,54 @@ class PCFG(object):
             if p < 0: return r
         return r
 
+def print_sentences(grammar, n, t):
+    pcfg = PCFG.from_file(grammar)
+    for i in range(n):
+        sent, tree = pcfg.random_sent()
+        print(sent)
+        if t:
+            print(make_tree(tree))
+
+def make_tree(tree):
+    tree_sent = ""
+    
+    i = 0
+    while i < len(tree):
+        type, symbol = tree[i]
+        if type == "non-term":
+            tree_sent += '(' + symbol + ' '
+            i += 1
+        else:
+            while i < len(tree) and tree[i][0] == "term":
+                tree_sent += tree[i][1] + ' '
+                i += 1
+            tree_sent = tree_sent[:-1] + ')'
+    return tree_sent
+
+
+
+def main():
+    parser = argparse.ArgumentParser(description='flags parser')
+    # Required positional argument
+    parser.add_argument('grammar', type=str,
+                    help='A grammar file to be used')
+    # Optional argument
+    parser.add_argument('-n', type=int,
+                    help='number of sentences to make')
+    # Switch
+    parser.add_argument('-t', action='store_true',
+                    help='A boolean switch')
+
+    args = parser.parse_args()
+    
+    if 'n' in args:
+        print_sentences(args.grammar, args.n, args.t)
+    # if 't' in args:
+    #     print_tree()
+    else:
+        print_sentences(1)
+
 
 if __name__ == '__main__':
+    main()
 
-    import sys
-    pcfg = PCFG.from_file(sys.argv[1])
-    if len(sys.argv) >= 4 and sys.argv[2] == '-n':
-            n = int(sys.argv[3])
-            for i in range(n-1):
-                print(pcfg.random_sent())
-
-    print(pcfg.random_sent())
