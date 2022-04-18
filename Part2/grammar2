@@ -36,15 +36,15 @@
 1	S	NP VP
 1   S   NP VP Det NP VP
 1	VP	V1 NP
-1   VP  V0
+100   VP  V0
 1   VP  VP PP
 1   NP  Det NP   # TODO: ?
 5	NP	Det Noun # TODO: why changed?
 1	NP	NP PP
-1   NP  NP Verb
-1   NP  Noun
+#100   NP  NP Verb
+100   NP  Noun
 1   NP  NNP
-1   NP  Adj Noun
+100   NP  Adj Noun
 1	PP	Prep NP
 5	Noun	Adj Noun # TODO: why changed?
 
