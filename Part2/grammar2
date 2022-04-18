@@ -19,9 +19,10 @@
 
 # Rules for creating full sentences.
 
-5	ROOT	S . # TODO: why changed?
+1	ROOT	S . # TODO: why changed?
 1	ROOT	S !
 1	ROOT	is it true that S ?     # mixing terminals and nonterminals is ok.
+
 
 # The basic grammar rules.  Here's what the abbreviations stand for:
 #    S  = sentence
@@ -33,14 +34,29 @@
 #    Adj = adjective
 
 1	S	NP VP
-3   S   Noun Verb
-1	VP	Verb NP
+1   S   NP VP Det NP VP
+1	VP	V1 NP
+1   VP  V0
+1   VP  VP PP
 1   NP  Det NP   # TODO: ?
 5	NP	Det Noun # TODO: why changed?
 1	NP	NP PP
+1   NP  NP Verb
+1   NP  Noun
+1   NP  NNP
+1   NP  Adj Noun
 1	PP	Prep NP
 5	Noun	Adj Noun # TODO: why changed?
 
+# the president thought that a sandwich sighed
+# Det Noun Verb Det Det Noun V0
+# NP VP
+# Det NP V0
+# Det NP V0
+
+
+#Noun Conj Det Noun Verb Conj Verb Det Noun
+# NP Conj NP Verb Conj Verb Det Noun
 
 # Vocabulary.  Your program can see that "ate" is a terminal
 # symbol because there exists no rule for rewriting it.
@@ -48,22 +64,26 @@
 # terminals, like "chief of staff") is called a "preterminal."  Notice
 # that a preterminal is a special kind of nonterminal.
 
-1	Verb	ate
-1	Verb	wanted
-1	Verb	kissed
-1	Verb	understood
-1	Verb	pickled
+1	V1	ate
+1	V1	wanted
+1	V1	kissed
+1	V1	understood
+1	V1	pickled
+1   V1    thought
+
+1   V0    sighed
 
 1	Det	the
 1	Det	a
 1	Det	every
+1   Det that
 
 1	Noun	president
 1	Noun	sandwich
 1	Noun	pickle
 1	Noun	chief of staff
 1	Noun	floor
-1   Noun    Sally
+1   NNP    Sally
 
 1	Adj	fine
 1	Adj	delicious
@@ -77,3 +97,4 @@
 
 1   Conj    and
 1   Conj    or
+
