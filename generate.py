@@ -51,4 +51,9 @@ if __name__ == '__main__':
 
     import sys
     pcfg = PCFG.from_file(sys.argv[1])
+    if len(sys.argv) >= 4 and sys.argv[2] == '-n':
+            n = int(sys.argv[3])
+            for i in range(n-1):
+                print(pcfg.random_sent())
+
     print(pcfg.random_sent())
