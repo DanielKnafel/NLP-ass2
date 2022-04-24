@@ -1,3 +1,5 @@
+# a f
+
 # Symbols in the grammar are case-sensitive.
 # 
 # This grammar uses a convention that
@@ -38,10 +40,10 @@
 1	S	NP VP
 5	VP	V1 NP
 4   VP  V0
-5	NP	Det Noun # TODO: why changed?
+5	NP	Det Noun
 1	NP	NP PP
 1	PP	Prep NP
-2	Noun	Adj Noun # TODO: why changed?
+2	Noun	Adj Noun
 
 # Vocabulary.  Your program can see that "ate" is a terminal
 # symbol because there exists no rule for rewriting it.
@@ -59,7 +61,6 @@
 1	V0	understood
 
 10	Det	the
-10	Det	a
 1	Det	every
 
 2	Noun	president
@@ -118,7 +119,7 @@
 
 
 # (e) it perplexed the president that a sandwich ate Sally .
-# ROOT => (S .) => (NP VP .) +> (Pron VP .) => (it VP .) => (it V6 NP that S .) =>  (it perplexed NP that S .) => (it perplexed Det Noun that S .) =>  (it perplexed the Noun that S .) =>
+# ROOT => (S .) => (NP VP .) => (Pron VP .) => (it VP .) => (it V6 NP that S .) =>  (it perplexed NP that S .) => (it perplexed Det Noun that S .) =>  (it perplexed the Noun that S .) =>
 # (it perplexed the president that S .) => (it perplexed the president that NP VP .) =>
 # (it perplexed the president that Det Noun VP .) => (it perplexed the president that a Noun VP .) => (it perplexed the president that a sandwich VP .) =>
 # (it perplexed the president that a sandwich V1 NP .) => (it perplexed the president that a sandwich ate NP .) => (it perplexed the president that a sandwich ate NNP .) =>
@@ -129,13 +130,16 @@
 1	V6	    perplexed
 
 # (f) the very very very perplexed president ate a sandwich .
-# ROOT => (S .) => (NP VP .) => (Det Noun VP .) => (the Noun VP .) => (the Adj Noun VP .) => (the RB Adj Noun VP .) => (the very Adj Noun VP .) => (the very RB Adj Noun VP .) =>
-# (the very very Adj Noun VP .) => (the very very RB Adj Noun VP .) => (the very very very Adj Noun VP .) => (the very very very perplexed Noun VP .) =>
+# ROOT => (S .) => (NP VP .) => (Det Noun VP .) => (the Noun VP .) => (the RB Adj Noun VP .) => (the RB RB Adj Noun VP .) => (the RB RB RB Adj Noun VP .) => (the very RB RB Adj Noun VP .) =>
+# (the very very RB Adj Noun VP .) => (the very very very Adj Noun VP .) => (the very very very perplexed Noun VP .) =>
 # (the very very very perplexed president VP .) => (the very very very perplexed president V1 NP .) => (the very very very perplexed president ate NP .) =>
 # (the very very very perplexed president ate Det Noun .) => (the very very very perplexed president ate a Noun .) => (the very very very perplexed president ate a sandwich .)
 
-0.5   Adj RB Adj
+
 1   RB very
+1   RB   RB RB
+0.1   Noun RB Adj Noun
+
 
 
 # (g) the president worked on every proposal on the desk .
@@ -165,3 +169,123 @@
 # (the president thought that Sally V1 NP .) => (the president thought that Sally is NP .) => (the president thought that Sally is Det Noun .) => (the president thought that Sally is a Noun .) =>
 # (the president thought that Sally is a sandwich .)
 1   V1      is
+
+
+
+
+
+
+
+
+#(a) a Vs an
+
+1   NP  SINGLE_NP
+
+
+1   SINGLE_NP   a   CONSONANT
+1   SINGLE_NP   an  VOWEL
+
+1   CONSONANT   ADJ_CONSONANT Noun
+1   CONSONANT   RB_CONSONANT Adj Noun
+1   CONSONANT   NOUN_CONSONANT
+
+1   VOWEL   ADJ_VOWEL Noun
+1   VOWEL   RB_VOWEL Adj Noun
+1   VOWEL   NOUN_VOWEL
+
+1   ADJ_CONSONANT   pickled
+1   ADJ_CONSONANT   lazy
+1   ADJ_CONSONANT   perplexed
+
+
+1   ADJ_VOWEL   adorable
+1   ADJ_VOWEL   average
+1   ADJ_VOWEL   elegant
+1   ADJ_VOWEL   ambivalent
+
+
+1   RB_CONSONANT   RB_CONSONANT RB
+1   RB_CONSONANT   very
+1   RB_CONSONANT   slightly
+
+
+0.1   RB_VOWEL   RB_VOWEL RB
+1   RB_VOWEL   always
+1   RB_VOWEL   almost
+
+1   NOUN_CONSONANT  president
+1   NOUN_CONSONANT  floor
+1   NOUN_CONSONANT  chief of staff
+1   NOUN_CONSONANT  balloon
+
+
+1   NOUN_VOWEL  apple
+1   NOUN_VOWEL  orange
+1   NOUN_VOWEL  angel
+1   NOUN_VOWEL  elephant
+
+1   Noun NOUN_VOWEL
+1   Noun NOUN_CONSONANT
+1   Adj ADJ_CONSONANT
+1   Adj ADJ_VOWEL
+
+1   RB  slightly
+
+
+
+
+# (f) Tense and Aspects
+# To implement new words, add 5 of its forms (present simple, past simple,future simple, perfect and progressive)
+
+
+1   VP will FUTURE_TENSE
+1   FUTURE_TENSE   SIMPLE_FUTURE
+1   FUTURE_TENSE   have PERFECT
+1   FUTURE_TENSE   be PROGRESSIVE
+1   FUTURE_TENSE   have PERFECT_PROGRESSIVE
+
+
+1   VP  PAST_TENSE
+1   PAST_TENSE   SIMPLE_PAST
+1   PAST_TENSE   had PERFECT
+1   PAST_TENSE   was PROGRESSIVE
+1   PAST_TENSE   had PERFECT_PROGRESSIVE
+
+
+1   VP  PRESENT_TENSE
+1   PRESENT_TENSE   SIMPLE_PRESENT
+1   PRESENT_TENSE   has PERFECT
+1   PRESENT_TENSE   is PROGRESSIVE
+1   PRESENT_TENSE   has PERFECT_PROGRESSIVE
+
+1   PERFECT_PROGRESSIVE been PROGRESSIVE
+
+#Verbs vocabulary for every tense and aspect
+
+1   SIMPLE_PRESENT  eats
+1   SIMPLE_PRESENT  goes
+1   SIMPLE_PRESENT  walks
+1   SIMPLE_PRESENT  pickles
+1   SIMPLE_PRESENT  says
+1   SIMPLE_PAST     ate
+1   SIMPLE_PAST     went
+1   SIMPLE_PAST     walked
+1   SIMPLE_PAST     pickled
+1   SIMPLE_PAST     said
+1   SIMPLE_FUTURE   eat
+1   SIMPLE_FUTURE   go
+1   SIMPLE_FUTURE   walk
+1   SIMPLE_FUTURE   pickle
+1   SIMPLE_FUTURE   say
+
+1   PERFECT eaten
+1   PERFECT gone
+1   PERFECT walked
+1   PERFECT pickled
+1   PERFECT said
+
+1   PROGRESSIVE   eating
+1   PROGRESSIVE   going
+1   PROGRESSIVE   walking
+1   PROGRESSIVE   pickling
+1   PROGRESSIVE   saying

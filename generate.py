@@ -56,7 +56,7 @@ class PCFG(object):
             return symbol
         else:
             expansion = self.random_expansion(symbol)
-            self.tree += f" ({symbol} "
+            self.tree += f" ({symbol} " if symbol != 'ROOT' else f"({symbol} "
             self._parse_tree.append(('non-term', symbol))
             path = [self.gen(s) for s in expansion]
             self.tree += ')'
@@ -81,7 +81,7 @@ class PCFG(object):
         # x = self.gen_from_tree('ROOT', start)
         # x = self.gen1("ROOT")
         # return (self.gen("ROOT"), self._parse_tree, start.next)
-        return (self.gen("ROOT"),self.tree)
+        return (self.gen("ROOT"), self.tree)
 
     def random_expansion(self, symbol):
         """
@@ -104,6 +104,7 @@ def print_sentences(grammar, n, t):
             # print_tree(root)
             # print(make_tree(tree))
             print(tree)
+
 
 # def print_tree(root):
 #     print("".join(recursive_dfs(root[0])))
