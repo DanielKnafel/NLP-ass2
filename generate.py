@@ -77,6 +77,7 @@ class PCFG(object):
     def random_sent(self):
         self._parse_tree.clear()
         start = Node('start', False)
+        self.tree = ""
         # x = self.gen_from_tree('ROOT', start)
         # x = self.gen1("ROOT")
         # return (self.gen("ROOT"), self._parse_tree, start.next)
