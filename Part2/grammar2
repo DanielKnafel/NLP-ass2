@@ -33,6 +33,8 @@
 #    Adj = adjective
 # 	 Prob = pronoun
 # 	 VBZ = Verb (3rd person singular present)
+
+
 1	S	NP VP
 1	VP	Verb NP
 5	NP	Det Noun # TODO: why changed?
@@ -46,11 +48,11 @@
 # terminals, like "chief of staff") is called a "preterminal."  Notice 
 # that a preterminal is a special kind of nonterminal.
 
-2	Verb	ate
+2	V1	ate
 2	Verb	wanted
 2	Verb	kissed
 2	Verb	understood
-1	Verb	pickled
+1	V1	pickled
 
 1	Det	the
 1	Det	a
@@ -74,74 +76,76 @@
 
 # -------------------------------
 # (a) Sally ate a sandwich .
-# ROOT => (S .) => (NP VP .) => (NNP VP .) => (Sally VP .) => (Sally Verb NP .) => (Sally ate NP .) => (Sally ate Det Noun .) => (Sally ate a Noun .) => (Sally ate a sandwich .)
+# ROOT => (S .) => (NP VP .) => (NNP VP .) => (Sally VP .) => (Sally V1 NP .) => (Sally ate NP .) => (Sally ate Det Noun .) => (Sally ate a Noun .) => (Sally ate a sandwich .)
 1   NP	NNP
 1   NNP Sally
+1   VP  V1 NP
 
 # (b) Sally and the president wanted and ate a sandwich .
-# ROOT => (S .) => (NP VP .) => (NNP Conj NP VP .) => (Sally Conj NP VP .) => (Sally and NP VP .) => (Sally and Det Noun VP .) => (Sally and the Noun VP .) =>
-# (Sally and the president VP .) =>  (Sally and the president Verb NP .) => (Sally and the president Verb Conj Verb NP .) => (Sally and the president wanted Conj Verb NP .) =>
-# (Sally and the president wanted and Verb NP .) => (Sally and the president wanted and ate NP .) => (Sally and the president wanted and ate Det Noun .) => (Sally and the president wanted and ate a Noun .) =>
-# (Sally and the president wanted and ate a sandwich .) =>
-1   Verb    Verb Conj Verb
+# ROOT => (S .) => (NP VP .) => (NP Conj NP VP .) => (NNP Conj NP VP .) => (Sally Conj NP VP .) => (Sally and NP VP .) => (Sally and Det Noun VP .) => (Sally and the Noun VP .) =>
+# (Sally and the president VP .) =>  (Sally and the president VP Conj VP .) => (Sally and the president Verb Conj VP .) => (Sally and the president wanted Conj VP .) =>
+# (Sally and the president wanted and VP .) => (Sally and the president wanted and V1 NP .) => (Sally and the president wanted and ate NP .) => (Sally and the president wanted and ate Det Noun .) =>
+# (Sally and the president wanted and ate a Noun .) => (Sally and the president wanted and ate a sandwich .)
+1   NP		NP Conj NP
+1   VP      VP Conj VP
 1   Conj    and
-1   NP		NNP Conj NP
+
 
 # (c) the president sighed .
 # ROOT => (S .) => (NP VP .) => (Det Noun VP .) => (the Noun VP .) => (the president VP .) => (the president Verb .) => (the president sighed .)
 1	Verb	sighed
 
 # (d) the president thought that a sandwich sighed .
-# ROOT => (S .) => (NP VP .) => (Det Noun VP .) => (the Noun VP .) => (the president VP .) => (the president Verb Prep S .) => (the president thought Prep S .) => (the president thought that S .) =>
-# (the president thought that NP VP .) => (the president thought that Det Noun VP .) => (the president thought that a Noun VP .) => (the president thought that a sandwich VP .) => 
-# (the president thought that a sandwich Verb .) => (the president thought that a sandwich sighed .)
-1	Verb	thought
-1	Prep	that
-1	VP		Verb Prep S
-1	VP		Verb
+# ROOT => (S .) => (NP VP .) => (Det Noun VP .) =>  (the Noun VP .) =>  (the president VP .) =>  (the president V5 SBAR .) => (the president thought SBAR .) => (the president thought Prep S .) => 
+# (the president thought that S .) => (the president thought that NP VP .) =>=> (the president thought that Det Noun VP .) => (the president thought that a Noun VP .) => 
+# (the president thought that a sandwich VP .) => (the president thought that a sandwich Verb .) => (the president thought that a sandwich sighed .)
+1   VP      V5 SBAR
+1   SBAR    Prep S
+1   VP      Verb
+1	V5	    thought
+1   Prep    that
 
 # (e) it perplexed the president that a sandwich ate Sally .
-# ROOT => (S .) => (S Prep S .) => (NP VP Prep S) => (Pron VP Prep S .) => (it VP Prep S .) => (it Verb NP Prep S .) => (it perplexed NP Prep S .) => (it perplexed Det Noun Prep S .) => 
-# (it perplexed the Noun Prep S .) => (it perplexed the president Prep S .) => (it perplexed the president that S .) => (it perplexed the president that NP VP .) => 
+# ROOT => (S .) => (NP VP .) +> (Pron VP .) => (it VP .) => (it V6 NP SBAR .) =>  (it perplexed NP SBAR .) => (it perplexed Det Noun SBAR .) =>  (it perplexed the Noun SBAR .) =>
+# (it perplexed the president SBAR .) => (it perplexed the president Prep S) => (it perplexed the president that S) => (it perplexed the president that NP VP .) => 
 # (it perplexed the president that Det Noun VP .) => (it perplexed the president that a Noun VP .) => (it perplexed the president that a sandwich VP .) =>
 # (it perplexed the president that a sandwich Verb NP .) => (it perplexed the president that a sandwich ate NP .) => (it perplexed the president that a sandwich ate NNP .) =>
 # (it perplexed the president that a sandwich ate Sally .)
-1	S 		S Prep S
 1	Pron	it
 1	NP		Pron
-1	Verb	perplexed
+1   VP      V6 NP SBAR
+1	V6	    perplexed
 
 # (f) the very very very perplexed president ate a sandwich .
 # ROOT => (S .) => (NP VP .) => (Det Noun VP .) => (the Noun VP .) => (the Adj Noun VP .) => (the very Noun VP .) => (the very Adj Noun VP .) => (the very very Noun VP .) =>
 # (the very very Adj Noun VP .) => (the very very very Noun VP .) => (the very very very Adj Noun VP .) => (the very very very perplexed Noun VP .) => 
-# (the very very very perplexed president VP .) => (the very very very perplexed president Verb NP .) => (the very very very perplexed president ate NP .) =>
+# (the very very very perplexed president VP .) => (the very very very perplexed president V1 NP .) => (the very very very perplexed president ate NP .) =>
 # (the very very very perplexed president ate Det Noun .) => (the very very very perplexed president ate a Noun .) => (the very very very perplexed president ate a sandwich .)
 
 # (g) the president worked on every proposal on the desk .
-# ROOT => (S .) => (NP VP .) => (Det Noun VP .) => (the Noun VP .) => (the president VP .) => (the president Verb PP .) => (the president worked PP .) =>
+# ROOT => (S .) => (NP VP .) => (Det Noun VP .) => (the Noun VP .) => (the president VP .) => (the president VP PP .) => (the president Verb PP .) => (the president worked PP .) =>
 # (the president worked Prep NP .) => (the president worked on NP .) => (the president worked on NP PP .) => (the president worked on Det Noun PP .) =>
 # (the president worked on every Noun PP .) => (the president worked on every proposal PP .) => (the president worked on every proposal Prep NP .) =>
 # (the president worked on every proposal on NP .) => (the president worked on every proposal on Det Noun .) => (the president worked on every proposal on the Noun .) =>
 # (the president worked on every proposal on the desk .) =>
 1	Verb	worked
-1	VP		Verb PP
+1	VP		VP PP
 1	Noun	proposal
 1	Noun	desk
 
 # (h) Sally is lazy .
-# ROOT => (S .) => (NP VP .) => (NNP VP .) => (Sally VP .) => (Sally VP .) => (Sally Verb Adj .) => (Sally is Adj .) => (Sally is lazy .)
-1	VP		VBZ ADJP
-1	VBZ		is
-1	ADJP	Adj
+# ROOT => (S .) => (NP VP .) => (NNP VP .) => (Sally VP .) => (Sally is Adj .) => (Sally is lazy .)
+1   VP      is Adj
 1	Adj		lazy
 
 # (i) Sally is eating a sandwich .
-# ROOT => (S .) => (NP VP .) => (NNP VP .) => (Sally VP .) => (Sally VP .) => (Sally Verb NP .) => (Sally is eating NP .) => (Sally is eating Det Noun .) => (Sally is eating a Noun .) =>
-# (Sally is eating a sandwich .) =>
-1	Verb	is eating
+# ROOT => (S .) => (NP VP .) => (NNP VP .) => (Sally VP .) => (Sally VP .) => (Sally V1 NP .) => (Sally is eating NP .) => (Sally is eating Det Noun .) => (Sally is eating a Noun .) =>
+# (Sally is eating a sandwich .)
+1	V1	is eating
 
 # (j) the president thought that sally is a sandwich .
-# ROOT => (S .) => (S Prep S .) => (NP VP Prep S .) => (Det Noun VP Prep S .) => (the Noun VP Prep S .) => (the president VP Prep S .) => (the president Verb Prep S .) => 
-# (the president thought Prep S .) => (the president thought that S .) => (the president thought that NP VP .) => (the president thought that NNP VP .) => 
-# (the president thought that Sally VP .) => (the president thought that Sally Verb NP .) => (the president thought that Sally is NP .) => (the president thought that Sally is Det Noun .) => 
-# (the president thought that Sally is a Noun .) => (the president thought that Sally is a sandwich .)
+# ROOT => (S .) => (NP VP .) => (Det Noun VP .) =>  (the Noun VP .) =>  (the president VP .) => (the president V5 SBAR .) => (the president thought SBAR .) => (the president thought Prep S .) => 
+# (the president thought that S .) => (the president thought that NP VP .) => (the president thought that NNP VP .) => (the president thought that Sally VP .) => 
+# (the president thought that Sally V1 NP .) => (the president thought that Sally is NP .) => (the president thought that Sally is Det Noun .) => (the president thought that Sally is a Noun .) =>
+# (the president thought that Sally is a sandwich .)
+1   V1      is
