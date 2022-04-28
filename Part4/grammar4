@@ -21,7 +21,7 @@
 
 # Rules for creating full sentences.
 
-5	ROOT	S . # TODO: why changed?
+5	ROOT	S .
 1	ROOT	S !
 1	ROOT	is it true that S ?     # mixing terminals and nonterminals is ok.
 
@@ -79,8 +79,13 @@
 1	Prep	under
 1	Prep	in
 
-1   Conj    and
-1   Conj    or
+3  Conj    and
+0.1   Conj    or
+2   Conj    but
+1   Conj    if
+2   Conj    because
+1   Conj    unless
+1   Conj    although
 
 # -------------------------------
 # (a) Sally ate a sandwich .
@@ -95,7 +100,6 @@
 # (Sally and the president wanted and V1 NP .) => (Sally and the president wanted and ate NP .) => (Sally and the president wanted and ate Det Noun .) =>
 # (Sally and the president wanted and ate a Noun .) => (Sally and the president wanted and ate a sandwich .)
 0.1   NP		NP Conj NP
-# 0.1   VP      VP Conj VP
 0.1   V1      V1 Conj V1
 
 
@@ -179,8 +183,11 @@
 
 #(a) a Vs an
 
-1   NP  SINGLE_NP
+# for example, a very ambivalent apple.
+# ROOT => (S .) => (NP VP .) => (SINGLE_NP VP .) => (a   CONSONANT VP .) => (a RB_CONSONANT Adj Noun VP .) => (a very Adj Noun VP .) => (a very ambivalent Noun VP .) => (a very ambivalent apple .)
 
+1   NP  SINGLE_NP
+0.1   S   S Conj S
 
 1   SINGLE_NP   a   CONSONANT
 1   SINGLE_NP   an  VOWEL
@@ -188,6 +195,7 @@
 1   CONSONANT   ADJ_CONSONANT Noun
 1   CONSONANT   RB_CONSONANT Adj Noun
 1   CONSONANT   NOUN_CONSONANT
+
 
 1   VOWEL   ADJ_VOWEL Noun
 1   VOWEL   RB_VOWEL Adj Noun
@@ -217,12 +225,17 @@
 1   NOUN_CONSONANT  floor
 1   NOUN_CONSONANT  chief of staff
 1   NOUN_CONSONANT  balloon
+1   NOUN_CONSONANT  sandwich
+1   NOUN_CONSONANT  desk
+1   NOUN_CONSONANT  proposal
+1   NOUN_CONSONANT  dog
 
 
 1   NOUN_VOWEL  apple
 1   NOUN_VOWEL  orange
 1   NOUN_VOWEL  angel
 1   NOUN_VOWEL  elephant
+
 
 1   Noun NOUN_VOWEL
 1   Noun NOUN_CONSONANT
@@ -236,6 +249,16 @@
 
 # (f) Tense and Aspects
 # To implement new words, add 5 of its forms (present simple, past simple,future simple, perfect and progressive)
+
+#the president has been eating a sandwich
+
+# ROOT => (S .) => (NP VP .) => (the Noun VP .) => (the president VP .) => (the president V1 NP .)
+
+
+
+# ROOT => (S .) => (NP VP .) => (the Noun VP .) => (the president VP .) => (the president PRESENT_TENSE .) => (the president has PERFECT_PROGRESSIVE .)
+# => (the president has been PROGRESSIVE .) => (the president has been eating .)
+
 
 
 1   VP will FUTURE_TENSE
@@ -260,32 +283,37 @@
 
 1   PERFECT_PROGRESSIVE been PROGRESSIVE
 
-#Verbs vocabulary for every tense and aspect
+#V0 vocabulary for every tense and aspect
 
 1   SIMPLE_PRESENT  eats
 1   SIMPLE_PRESENT  goes
 1   SIMPLE_PRESENT  walks
 1   SIMPLE_PRESENT  pickles
 1   SIMPLE_PRESENT  says
+
 1   SIMPLE_PAST     ate
 1   SIMPLE_PAST     went
 1   SIMPLE_PAST     walked
 1   SIMPLE_PAST     pickled
 1   SIMPLE_PAST     said
+
 1   SIMPLE_FUTURE   eat
 1   SIMPLE_FUTURE   go
 1   SIMPLE_FUTURE   walk
 1   SIMPLE_FUTURE   pickle
-1   SIMPLE_FUTURE   say
+1   SIMPLE_FUTURE   swim
 
 1   PERFECT eaten
 1   PERFECT gone
 1   PERFECT walked
 1   PERFECT pickled
 1   PERFECT said
+1   PERFECT swam
+
 
 1   PROGRESSIVE   eating
 1   PROGRESSIVE   going
 1   PROGRESSIVE   walking
 1   PROGRESSIVE   pickling
-1   PROGRESSIVE   saying
+1   PROGRESSIVE   swimming
+

@@ -62,25 +62,9 @@ class PCFG(object):
             self.tree += ')'
             return " ".join(path)
 
-    # def gen_from_tree(self, symbol, node):
-    #     new_node = Node(symbol, self.is_terminal(symbol))
-    #     node.next.append(new_node)
-    #     if self.is_terminal(symbol):
-    #         self._parse_tree.append(('term', symbol))
-    #         return symbol
-    #     else:
-    #         expansion = self.random_expansion(symbol)
-    #         # self.tree = f"({symbol} {self.tree})"
-    #         self._parse_tree.append(('non-term', symbol))
-    #         return " ".join(self.gen_from_tree(s, new_node) for s in expansion)
-
     def random_sent(self):
         self._parse_tree.clear()
-        start = Node('start', False)
         self.tree = ""
-        # x = self.gen_from_tree('ROOT', start)
-        # x = self.gen1("ROOT")
-        # return (self.gen("ROOT"), self._parse_tree, start.next)
         return (self.gen("ROOT"), self.tree)
 
     def random_expansion(self, symbol):
@@ -94,49 +78,14 @@ class PCFG(object):
         return r
 
 
-def print_sentences(grammar, n, t):
+def print_sentences(grammar, n, t=False):
     pcfg = PCFG.from_file(grammar)
     for i in range(n):
-        # sent, tree, root = pcfg.random_sent()
         sent, tree = pcfg.random_sent()
         print(sent)
         if t:
-            # print_tree(root)
-            # print(make_tree(tree))
             print(tree)
 
-
-# def print_tree(root):
-#     print("".join(recursive_dfs(root[0])))
-#
-# def recursive_dfs(root, path=[]):
-#     if root.terminal:
-#         path.append(f" {root.symbol}")
-#         # leaf node, backtrack
-#         return path
-#     else:
-#         path.append(f"({root.symbol}")
-#     for neighbour in root.next:
-#         path = recursive_dfs(neighbour, path)
-#     return path + [")"]
-
-
-# def make_tree(tree):
-#     tree_sent = ""
-#
-#     i = 0
-#     while i < len(tree):
-#         type, symbol = tree[i]
-#         if type == "non-term":
-#             tree_sent += '(' + symbol + ' '
-#             i += 1
-#         else:
-#             while i < len(tree) and tree[i][0] == "term":
-#                 tree_sent += tree[i][1] + ' '
-#                 i += 1
-#             tree_sent = tree_sent[:-1] + ')'
-#     return tree_sent
-#
 
 def main():
     parser = argparse.ArgumentParser(description='flags parser')
@@ -144,20 +93,14 @@ def main():
     parser.add_argument('grammar', type=str,
                         help='A grammar file to be used')
     # Optional argument
-    parser.add_argument('-n', type=int,
+    parser.add_argument('-n', type=int, default=1,
                         help='number of sentences to make')
     # Switch
-    parser.add_argument('-t', action='store_true',
+    parser.add_argument('-t', default=False, action='store_true',
                         help='A boolean switch')
 
     args = parser.parse_args()
-
-    if 'n' in args:
-        print_sentences(args.grammar, args.n, args.t)
-    # if 't' in args:
-    #     print_tree()
-    else:
-        print_sentences(1)
+    print_sentences(args.grammar, args.n, args.t)
 
 
 if __name__ == '__main__':

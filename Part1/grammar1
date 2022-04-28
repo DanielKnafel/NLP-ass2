@@ -19,7 +19,7 @@
 
 # Rules for creating full sentences.
 
-5	ROOT	S . # TODO: why changed?
+5	ROOT	S . # We increase the probability of the rule that rewrite sentence with '.' in the end.
 1	ROOT	S !
 1	ROOT	is it true that S ?     # mixing terminals and nonterminals is ok.
 
@@ -33,11 +33,15 @@
 #    Adj = adjective
 
 1	S	NP VP
-1	VP	Verb NP
-5	NP	Det Noun # TODO: why changed?
+
+# To make the sentences shorter, we changed the weights of the rules that generate pre-terminals.
+5	VP	Verb NP
+10	NP	Det Noun
 1	NP	NP PP
-1	PP	Prep NP
-5	Noun	Adj Noun # TODO: why changed?
+5	PP	Prep NP
+
+# To increase the probability of generating an adjective, we balanced the weights of the Noun rewriting rules.
+5	Noun	Adj Noun
 
 # Vocabulary.  Your program can see that "ate" is a terminal
 # symbol because there exists no rule for rewriting it.
@@ -45,14 +49,16 @@
 # terminals, like "chief of staff") is called a "preterminal."  Notice 
 # that a preterminal is a special kind of nonterminal.
 
-2	Verb	ate
-2	Verb	wanted
-2	Verb	kissed
-2	Verb	understood
+# we increase the weights of more common terminals over less common terminals.
+
+5	Verb	ate
+5	Verb	wanted
+3	Verb	kissed
+3	Verb	understood
 1	Verb	pickled
 
-1	Det	the
-1	Det	a
+2	Det	the
+2	Det	a
 1	Det	every
 
 2	Noun	president
@@ -61,8 +67,8 @@
 2	Noun	chief of staff
 2	Noun	floor
 
-1	Adj	fine
-1	Adj	delicious
+5	Adj	fine
+3	Adj	delicious
 1	Adj	perplexed
 1	Adj	pickled
 
