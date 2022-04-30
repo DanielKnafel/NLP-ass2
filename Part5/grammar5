@@ -1,5 +1,3 @@
-# a f
-
 # Symbols in the grammar are case-sensitive.
 # 
 # This grammar uses a convention that
@@ -79,28 +77,37 @@
 1	Prep	under
 1	Prep	in
 
-1   Conj    and
-1   Conj    or
-1   Conj    but
-1   Conj    if
-1   Conj    because
-1   Conj    unless
-1   Conj    although
+3  CC    and
+1  CC    or
+
+
+
+
 
 # -------------------------------
 # (a) Sally ate a sandwich .
 # ROOT => (S .) => (NP VP .) => (NNP VP .) => (Sally VP .) => (Sally V1 NP .) => (Sally ate NP .) => (Sally ate Det Noun .) => (Sally ate a Noun .) => (Sally ate a sandwich .)
 1   NP	NNP
 1   NNP Sally
+1   NNP Mary
+1   NNP John
+1   NNP Tom
+1   NNP Dick
+1   NNP Harry
+1   NNP Bill
+1   NNP Joe
+2   NNP Rick
+2   NNP Morty
+
 
 
 # (b) Sally and the president wanted and ate a sandwich .
-# ROOT => (S .) => (NP VP .) => (NP Conj NP VP .) => (NNP Conj NP VP .) => (Sally Conj NP VP .) => (Sally and NP VP .) => (Sally and Det Noun VP .) => (Sally and the Noun VP .) =>
-# (Sally and the president VP .) =>  (Sally and the president V1 NP .) => (Sally and the president V1 Conj V1 NP .) => (Sally and the president wanted Conj V1 NP .) =>
+# ROOT => (S .) => (NP VP .) => (NP and NP VP .) => (NNP and NP VP .) => (Sally and NP VP .) => (Sally and NP VP .) => (Sally and Det Noun VP .) => (Sally and the Noun VP .) =>
+# (Sally and the president VP .) =>  (Sally and the president V1 NP .) => (Sally and the president V1 CC V1 NP .) => (Sally and the president wanted CC V1 NP .) =>
 # (Sally and the president wanted and V1 NP .) => (Sally and the president wanted and ate NP .) => (Sally and the president wanted and ate Det Noun .) =>
 # (Sally and the president wanted and ate a Noun .) => (Sally and the president wanted and ate a sandwich .)
-0.1   NP		NP Conj NP
-0.1   V1      V1 Conj V1
+0.1   NP		NP and NP
+0.1   V1      V1 CC V1
 
 
 
@@ -175,9 +182,6 @@
 1   V1      is
 
 
-# TODO:  for example, a dog is a dog, but an elephant is not a dog.
-# S .=> NP VP . => SINGLE_NP VP . => a CONSONANT VP . => a dog VP . => a dog is a dog .
-
 
 
 
@@ -186,7 +190,9 @@
 
 #(a) a Vs an
 
-
+# for example, a very ambivalent apple is a sandwich.
+# ROOT => (S .) => (NP VP .) => (SINGLE_NP VP .) => (a   CONSONANT VP .) => (a RB_CONSONANT Adj Noun VP .) => (a very Adj Noun VP .) => (a very ambivalent Noun VP .) => (a very ambivalent apple VP.)
+# (a very ambivalent apple VP.) => (a very ambivalent apple V1 NP .) => (a very ambivalent apple is NP .) => (a very ambivalent apple is Det Noun .) => (a very ambivalent apple is a Noun .) => (a very ambivalent apple is a sandwich .)
 
 1   NP  SINGLE_NP
 
@@ -197,6 +203,7 @@
 1   CONSONANT   ADJ_CONSONANT Noun
 1   CONSONANT   RB_CONSONANT Adj Noun
 1   CONSONANT   NOUN_CONSONANT
+
 
 1   VOWEL   ADJ_VOWEL Noun
 1   VOWEL   RB_VOWEL Adj Noun
@@ -251,55 +258,280 @@
 # (f) Tense and Aspects
 # To implement new words, add 5 of its forms (present simple, past simple,future simple, perfect and progressive)
 
+#the president has been eating a sandwich
 
-1   VP will FUTURE_TENSE
-1   FUTURE_TENSE   SIMPLE_FUTURE
-1   FUTURE_TENSE   have PERFECT
-1   FUTURE_TENSE   be PROGRESSIVE
-1   FUTURE_TENSE   have PERFECT_PROGRESSIVE
+# ROOT => (S .) => (NP VP .) => (the Noun VP .) => (the president VP .) => (the president V1 NP .)
 
 
-1   VP  PAST_TENSE
-1   PAST_TENSE   SIMPLE_PAST
-1   PAST_TENSE   had PERFECT
-1   PAST_TENSE   was PROGRESSIVE
-1   PAST_TENSE   had PERFECT_PROGRESSIVE
+
+# ROOT => (S .) => (NP VP .) => (the Noun V0 .) => (the president V0 .) => (the president PRESENT_TENSE .) => (the president has PERFECT_PROGRESSIVE .)
+# => (the president has been PROGRESSIVE .) => (the president has been eating .)
+
+#V0 Tense and Aspects
+
+1   V0 will V0_FUTURE_TENSE
+1   V0_FUTURE_TENSE   V0_SIMPLE_FUTURE
+1   V0_FUTURE_TENSE   have V0_PERFECT
+1   V0_FUTURE_TENSE   be V0_PROGRESSIVE
+1   V0_FUTURE_TENSE   have V0_PERFECT_PROGRESSIVE
 
 
-1   VP  PRESENT_TENSE
-1   PRESENT_TENSE   SIMPLE_PRESENT
-1   PRESENT_TENSE   has PERFECT
-1   PRESENT_TENSE   is PROGRESSIVE
-1   PRESENT_TENSE   has PERFECT_PROGRESSIVE
+1   V0  V0_PAST_TENSE
+1   V0_PAST_TENSE   V0_SIMPLE_PAST
+1   V0_PAST_TENSE   had V0_PERFECT
+1   V0_PAST_TENSE   was V0_PROGRESSIVE
+1   V0_PAST_TENSE   had V0_PERFECT_PROGRESSIVE
 
-1   PERFECT_PROGRESSIVE been PROGRESSIVE
 
-#Verbs vocabulary for every tense and aspect
+1   V0  V0_PRESENT_TENSE
+1   V0_PRESENT_TENSE   V0_SIMPLE_PRESENT
+1   V0_PRESENT_TENSE   has V0_PERFECT
+1   V0_PRESENT_TENSE   is V0_PROGRESSIVE
+1   V0_PRESENT_TENSE   has V0_PERFECT_PROGRESSIVE
 
-1   SIMPLE_PRESENT  eats
-1   SIMPLE_PRESENT  goes
-1   SIMPLE_PRESENT  walks
-1   SIMPLE_PRESENT  pickles
-1   SIMPLE_PRESENT  says
-1   SIMPLE_PAST     ate
-1   SIMPLE_PAST     went
-1   SIMPLE_PAST     walked
-1   SIMPLE_PAST     pickled
-1   SIMPLE_PAST     said
-1   SIMPLE_FUTURE   eat
-1   SIMPLE_FUTURE   go
-1   SIMPLE_FUTURE   walk
-1   SIMPLE_FUTURE   pickle
-1   SIMPLE_FUTURE   say
+1   V0_PERFECT_PROGRESSIVE been V0_PROGRESSIVE
 
-1   PERFECT eaten
-1   PERFECT gone
-1   PERFECT walked
-1   PERFECT pickled
-1   PERFECT said
+#V0 vocabulary for every tense and aspect
 
-1   PROGRESSIVE   eating
-1   PROGRESSIVE   going
-1   PROGRESSIVE   walking
-1   PROGRESSIVE   pickling
-1   PROGRESSIVE   saying
+1   V0_SIMPLE_PRESENT  eats
+1   V0_SIMPLE_PRESENT  goes
+1   V0_SIMPLE_PRESENT  walks
+1   V0_SIMPLE_PRESENT  pickles
+1   V0_SIMPLE_PRESENT  swims
+
+
+1   V0_SIMPLE_PAST     ate
+1   V0_SIMPLE_PAST     went
+1   V0_SIMPLE_PAST     walked
+1   V0_SIMPLE_PAST     pickled
+1   V0_SIMPLE_PAST     swam
+
+1   V0_SIMPLE_FUTURE   eat
+1   V0_SIMPLE_FUTURE   go
+1   V0_SIMPLE_FUTURE   walk
+1   V0_SIMPLE_FUTURE   pickle
+1   V0_SIMPLE_FUTURE   swim
+
+
+1   V0_PERFECT eaten
+1   V0_PERFECT gone
+1   V0_PERFECT walked
+1   V0_PERFECT pickled
+1   V0_PERFECT swam
+
+
+
+1   V0_PROGRESSIVE   eating
+1   V0_PROGRESSIVE   going
+1   V0_PROGRESSIVE   walking
+1   V0_PROGRESSIVE   pickling
+1   V0_PROGRESSIVE   swimming
+
+
+#V1 Tense and Aspects
+
+
+
+1   V1 will V1_FUTURE_TENSE
+1   V1_FUTURE_TENSE   V1_SIMPLE_FUTURE
+1   V1_FUTURE_TENSE   have V1_PERFECT
+1   V1_FUTURE_TENSE   be V1_PROGRESSIVE
+1   V1_FUTURE_TENSE   have V1_PERFECT_PROGRESSIVE
+
+
+1   V1  V1_PAST_TENSE
+1   V1_PAST_TENSE   V1_SIMPLE_PAST
+1   V1_PAST_TENSE   had V1_PERFECT
+1   V1_PAST_TENSE   was V1_PROGRESSIVE
+1   V1_PAST_TENSE   had V1_PERFECT_PROGRESSIVE
+
+
+1   V1  V1_PRESENT_TENSE
+1   V1_PRESENT_TENSE   V1_SIMPLE_PRESENT
+1   V1_PRESENT_TENSE   has V1_PERFECT
+1   V1_PRESENT_TENSE   is V1_PROGRESSIVE
+1   V1_PRESENT_TENSE   has V1_PERFECT_PROGRESSIVE
+
+1   V1_PERFECT_PROGRESSIVE been V1_PROGRESSIVE
+
+
+#V1 vocabulary for every tense and aspect
+
+1   V1_SIMPLE_PRESENT  eats
+1   V1_SIMPLE_PRESENT  pickles
+1   V1_SIMPLE_PRESENT  says
+1   V1_SIMPLE_PRESENT  likes
+1   V1_SIMPLE_PRESENT  wants
+1   V1_SIMPLE_PRESENT  kisses
+
+
+1   V1_SIMPLE_PAST     ate
+1   V1_SIMPLE_PAST     pickled
+1   V1_SIMPLE_PAST     said
+1   V1_SIMPLE_PAST     liked
+1   V1_SIMPLE_PAST     wanted
+1   V1_SIMPLE_PAST     kissed
+
+1   V1_SIMPLE_FUTURE   eat
+1   V1_SIMPLE_FUTURE   pickle
+1   V1_SIMPLE_FUTURE   say
+1   V1_SIMPLE_FUTURE   like
+1   V1_SIMPLE_FUTURE   want
+1   V1_SIMPLE_FUTURE   kiss
+
+
+1   V1_PERFECT eaten
+1   V1_PERFECT pickled
+1   V1_PERFECT said
+1   V1_PERFECT liked
+1   V1_PERFECT wanted
+1   V1_PERFECT kissed
+
+
+1   V1_PROGRESSIVE   eating
+1   V1_PROGRESSIVE   pickling
+1   V1_PROGRESSIVE   saying
+1   V1_PROGRESSIVE   liking
+1   V1_PROGRESSIVE   wanting
+1   V1_PROGRESSIVE   kissing
+
+
+# rewriting rules for questions, we use different entities for the every kind of question so that it will be easier to handle,
+# and be logically correct.
+
+1   ROOT    S?
+
+1 S? Where is NP ?
+1 S? What is NP ?
+1 S? How much Non_Count_Nouns ?
+1 S? How many NNS ?
+
+
+# rewriting rules for questions and answers, for example: "What is every pickle ? every pickle is Rick ."
+
+1 ROOT QA .
+
+
+# in QA mode, the entity need to be the same in the question and the answer. for that reason, we introduce a new symbol '*',
+# that symbol signal the generator that the entity need to be the same in the question and the answer and the generator
+# will replace the token with the correct entity.
+
+1 QA Where is QUOTE_ENTITY* ? QUOTE_ENTITY* is PP_WHERE NP
+1 QA What is QUOTE_ENTITY* ? QUOTE_ENTITY* is NP
+1 QA How much Non_Count_Nouns* ? NUM UM of Non_Count_Nouns* # UM = unit of measure
+1 QA How many NNS* ? NUM NNS*
+
+# someone or something
+
+1   QUOTE_ENTITY    Det Noun
+1   QUOTE_ENTITY    NNP
+
+
+# PP_WHERE is a prepositional phrase that is used to indicate where something is.
+
+1 PP_WHERE under
+1 PP_WHERE in
+1 PP_WHERE on
+1 PP_WHERE at
+1 PP_WHERE by
+
+
+# unit of measure for Non_Count_Nouns
+
+1   UM  grams
+1   UM  pounds
+1   UM  ounces
+1   UM  milligrams
+1   UM  milliliters
+1   UM  liters
+1   UM  cups
+1   UM  pints
+1   UM  gallons
+1   UM  kilograms
+
+# Non_Count_Nouns (NonCount or uncountable nouns)  exist as masses or abstract quantities that cannot be counted.
+
+
+1 Non_Count_Nouns  salt
+1 Non_Count_Nouns  sugar
+1 Non_Count_Nouns  flour
+1 Non_Count_Nouns  butter
+1 Non_Count_Nouns  water
+1 Non_Count_Nouns  oil
+1 Non_Count_Nouns  milk
+1 Non_Count_Nouns  juice
+1 Non_Count_Nouns  wine
+1 Non_Count_Nouns  beer
+
+
+# plural nouns (count nouns)
+
+1 NNS   apples
+1 NNS   oranges
+1 NNS   pears
+1 NNS   bananas
+1 NNS   presidents
+1 NNS   people
+1 NNS   animals
+1 NNS   trees
+1 NNS   rooms
+1 NNS   houses
+1 NNS   cars
+
+# generated random number between 2 and 100 for plural nouns
+1 NUM  *
+
+
+
+
+# QUOTES rules used in the parser for sentences that said by someone, like in books, stories, etc.
+# for example: " " How many apples ? ", the sandwich wondered . " or  " " the president had been pickling !", Morty yelled .  "
+
+
+# rewriting rules for all kinds of quotes
+
+1 ROOT " S QUOTE_EXCLAMATION
+1 ROOT " S QUOTE_SENTENCE
+1 ROOT " S? QUOTE_QUESTION
+
+
+1   QUOTE_EXCLAMATION  !", QUOTE_ENTITY EXCLAMATION_VERB .
+1   QUOTE_SENTENCE  .", QUOTE_ENTITY QUOTE_VERB .
+1   QUOTE_QUESTION  ", QUOTE_ENTITY QUESTION_VERB .
+
+# common verbs for quotes
+
+1   QUESTION_VERB   asked
+1   QUESTION_VERB   questioned
+1   QUESTION_VERB   wondered
+
+1   EXCLAMATION_VERB  screamed
+1   EXCLAMATION_VERB  yelled
+1   EXCLAMATION_VERB  cried
+1   EXCLAMATION_VERB  shouted
+1   EXCLAMATION_VERB  announced
+
+1   QUOTE_VERB  said
+1   QUOTE_VERB  whispered
+1   QUOTE_VERB  announced
+1   QUOTE_VERB  responded
+1   QUOTE_VERB  replied
+1   QUOTE_VERB  declared
+
+
+# SBAR rewriting rules for chaining of clauses, that are normally not allowed with simple conjunctions.
+# for example: "the president and Sally said" is allowed by simple conjunctions, but "the president if Sally said" is not.
+# the SBAR prevents this. and only chains of clauses are allowed. for example: "Harry kissed while the floor ate the chief of staff ."
+
+1   ROOT S SBAR S  .
+
+
+1   SBAR    if
+1   SBAR    because
+1   SBAR    unless
+1   SBAR    although
+1   SBAR    while
+1   SBAR    until
+1   SBAR    till
+1   SBAR    as long as
+1   SBAR    even if

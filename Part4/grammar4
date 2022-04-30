@@ -51,14 +51,7 @@
 # terminals, like "chief of staff") is called a "preterminal."  Notice 
 # that a preterminal is a special kind of nonterminal.
 
-2	V1	ate
-2	V1	wanted
-2	V1	kissed
 
-1	V1	pickled
-
-1	V0	kissed
-1	V0	understood
 
 10	Det	the
 1	Det	every
@@ -79,13 +72,9 @@
 1	Prep	under
 1	Prep	in
 
-3  Conj    and
-0.1   Conj    or
-2   Conj    but
-1   Conj    if
-2   Conj    because
-1   Conj    unless
-1   Conj    although
+10  CC    and
+1  CC    or
+
 
 # -------------------------------
 # (a) Sally ate a sandwich .
@@ -95,12 +84,12 @@
 
 
 # (b) Sally and the president wanted and ate a sandwich .
-# ROOT => (S .) => (NP VP .) => (NP Conj NP VP .) => (NNP Conj NP VP .) => (Sally Conj NP VP .) => (Sally and NP VP .) => (Sally and Det Noun VP .) => (Sally and the Noun VP .) =>
-# (Sally and the president VP .) =>  (Sally and the president V1 NP .) => (Sally and the president V1 Conj V1 NP .) => (Sally and the president wanted Conj V1 NP .) =>
+# ROOT => (S .) => (NP VP .) => (NP CC NP VP .) => (NNP CC NP VP .) => (Sally CC NP VP .) => (Sally and NP VP .) => (Sally and Det Noun VP .) => (Sally and the Noun VP .) =>
+# (Sally and the president VP .) =>  (Sally and the president V1 NP .) => (Sally and the president V1 CC V1 NP .) => (Sally and the president wanted CC V1 NP .) =>
 # (Sally and the president wanted and V1 NP .) => (Sally and the president wanted and ate NP .) => (Sally and the president wanted and ate Det Noun .) =>
 # (Sally and the president wanted and ate a Noun .) => (Sally and the president wanted and ate a sandwich .)
-0.1   NP		NP Conj NP
-0.1   V1      V1 Conj V1
+0.1   NP		NP CC NP
+0.1   V1      V1 CC V1
 
 
 
@@ -117,7 +106,7 @@
 
 1   Vthat   thought
 1   Vthat   said
-1   Vthat   say
+1   Vthat   saw
 1   Vthat   understood
 
 
@@ -183,11 +172,12 @@
 
 #(a) a Vs an
 
-# for example, a very ambivalent apple.
-# ROOT => (S .) => (NP VP .) => (SINGLE_NP VP .) => (a   CONSONANT VP .) => (a RB_CONSONANT Adj Noun VP .) => (a very Adj Noun VP .) => (a very ambivalent Noun VP .) => (a very ambivalent apple .)
+# for example, a very ambivalent apple is a sandwich.
+# ROOT => (S .) => (NP VP .) => (SINGLE_NP VP .) => (a   CONSONANT VP .) => (a RB_CONSONANT Adj Noun VP .) => (a very Adj Noun VP .) => (a very ambivalent Noun VP .) => (a very ambivalent apple VP.)
+# (a very ambivalent apple VP.) => (a very ambivalent apple V1 NP .) => (a very ambivalent apple is NP .) => (a very ambivalent apple is Det Noun .) => (a very ambivalent apple is a Noun .) => (a very ambivalent apple is a sandwich .)
 
 1   NP  SINGLE_NP
-0.1   S   S Conj S
+
 
 1   SINGLE_NP   a   CONSONANT
 1   SINGLE_NP   an  VOWEL
@@ -256,64 +246,135 @@
 
 
 
-# ROOT => (S .) => (NP VP .) => (the Noun VP .) => (the president VP .) => (the president PRESENT_TENSE .) => (the president has PERFECT_PROGRESSIVE .)
+# ROOT => (S .) => (NP VP .) => (the Noun V0 .) => (the president V0 .) => (the president PRESENT_TENSE .) => (the president has PERFECT_PROGRESSIVE .)
 # => (the president has been PROGRESSIVE .) => (the president has been eating .)
 
 
 
-1   VP will FUTURE_TENSE
-1   FUTURE_TENSE   SIMPLE_FUTURE
-1   FUTURE_TENSE   have PERFECT
-1   FUTURE_TENSE   be PROGRESSIVE
-1   FUTURE_TENSE   have PERFECT_PROGRESSIVE
+1   V0 will V0_FUTURE_TENSE
+1   V0_FUTURE_TENSE   V0_SIMPLE_FUTURE
+1   V0_FUTURE_TENSE   have V0_PERFECT
+1   V0_FUTURE_TENSE   be V0_PROGRESSIVE
+1   V0_FUTURE_TENSE   have V0_PERFECT_PROGRESSIVE
 
 
-1   VP  PAST_TENSE
-1   PAST_TENSE   SIMPLE_PAST
-1   PAST_TENSE   had PERFECT
-1   PAST_TENSE   was PROGRESSIVE
-1   PAST_TENSE   had PERFECT_PROGRESSIVE
+1   V0  V0_PAST_TENSE
+1   V0_PAST_TENSE   V0_SIMPLE_PAST
+1   V0_PAST_TENSE   had V0_PERFECT
+1   V0_PAST_TENSE   was V0_PROGRESSIVE
+1   V0_PAST_TENSE   had V0_PERFECT_PROGRESSIVE
 
 
-1   VP  PRESENT_TENSE
-1   PRESENT_TENSE   SIMPLE_PRESENT
-1   PRESENT_TENSE   has PERFECT
-1   PRESENT_TENSE   is PROGRESSIVE
-1   PRESENT_TENSE   has PERFECT_PROGRESSIVE
+1   V0  V0_PRESENT_TENSE
+1   V0_PRESENT_TENSE   V0_SIMPLE_PRESENT
+1   V0_PRESENT_TENSE   has V0_PERFECT
+1   V0_PRESENT_TENSE   is V0_PROGRESSIVE
+1   V0_PRESENT_TENSE   has V0_PERFECT_PROGRESSIVE
 
-1   PERFECT_PROGRESSIVE been PROGRESSIVE
+1   V0_PERFECT_PROGRESSIVE been V0_PROGRESSIVE
 
 #V0 vocabulary for every tense and aspect
 
-1   SIMPLE_PRESENT  eats
-1   SIMPLE_PRESENT  goes
-1   SIMPLE_PRESENT  walks
-1   SIMPLE_PRESENT  pickles
-1   SIMPLE_PRESENT  says
-
-1   SIMPLE_PAST     ate
-1   SIMPLE_PAST     went
-1   SIMPLE_PAST     walked
-1   SIMPLE_PAST     pickled
-1   SIMPLE_PAST     said
-
-1   SIMPLE_FUTURE   eat
-1   SIMPLE_FUTURE   go
-1   SIMPLE_FUTURE   walk
-1   SIMPLE_FUTURE   pickle
-1   SIMPLE_FUTURE   swim
-
-1   PERFECT eaten
-1   PERFECT gone
-1   PERFECT walked
-1   PERFECT pickled
-1   PERFECT said
-1   PERFECT swam
+1   V0_SIMPLE_PRESENT  eats
+1   V0_SIMPLE_PRESENT  goes
+1   V0_SIMPLE_PRESENT  walks
+1   V0_SIMPLE_PRESENT  pickles
+1   V0_SIMPLE_PRESENT  swims
 
 
-1   PROGRESSIVE   eating
-1   PROGRESSIVE   going
-1   PROGRESSIVE   walking
-1   PROGRESSIVE   pickling
-1   PROGRESSIVE   swimming
+1   V0_SIMPLE_PAST     ate
+1   V0_SIMPLE_PAST     went
+1   V0_SIMPLE_PAST     walked
+1   V0_SIMPLE_PAST     pickled
+1   V0_SIMPLE_PAST     swam
+
+1   V0_SIMPLE_FUTURE   eat
+1   V0_SIMPLE_FUTURE   go
+1   V0_SIMPLE_FUTURE   walk
+1   V0_SIMPLE_FUTURE   pickle
+1   V0_SIMPLE_FUTURE   swim
+
+
+1   V0_PERFECT eaten
+1   V0_PERFECT gone
+1   V0_PERFECT walked
+1   V0_PERFECT pickled
+1   V0_PERFECT swam
+
+
+
+1   V0_PROGRESSIVE   eating
+1   V0_PROGRESSIVE   going
+1   V0_PROGRESSIVE   walking
+1   V0_PROGRESSIVE   pickling
+1   V0_PROGRESSIVE   swimming
+
+
+
+
+
+1   V1 will V1_FUTURE_TENSE
+1   V1_FUTURE_TENSE   V1_SIMPLE_FUTURE
+1   V1_FUTURE_TENSE   have V1_PERFECT
+1   V1_FUTURE_TENSE   be V1_PROGRESSIVE
+1   V1_FUTURE_TENSE   have V1_PERFECT_PROGRESSIVE
+
+
+1   V1  V1_PAST_TENSE
+1   V1_PAST_TENSE   V1_SIMPLE_PAST
+1   V1_PAST_TENSE   had V1_PERFECT
+1   V1_PAST_TENSE   was V1_PROGRESSIVE
+1   V1_PAST_TENSE   had V1_PERFECT_PROGRESSIVE
+
+
+1   V1  V1_PRESENT_TENSE
+1   V1_PRESENT_TENSE   V1_SIMPLE_PRESENT
+1   V1_PRESENT_TENSE   has V1_PERFECT
+1   V1_PRESENT_TENSE   is V1_PROGRESSIVE
+1   V1_PRESENT_TENSE   has V1_PERFECT_PROGRESSIVE
+
+1   V1_PERFECT_PROGRESSIVE been V1_PROGRESSIVE
+
+
+#V1 vocabulary for every tense and aspect
+
+1   V1_SIMPLE_PRESENT  eats
+1   V1_SIMPLE_PRESENT  pickles
+1   V1_SIMPLE_PRESENT  says
+1   V1_SIMPLE_PRESENT  likes
+1   V1_SIMPLE_PRESENT  wants
+1   V1_SIMPLE_PRESENT  kisses
+
+
+1   V1_SIMPLE_PAST     ate
+1   V1_SIMPLE_PAST     pickled
+1   V1_SIMPLE_PAST     said
+1   V1_SIMPLE_PAST     liked
+1   V1_SIMPLE_PAST     wanted
+1   V1_SIMPLE_PAST     kissed
+
+1   V1_SIMPLE_FUTURE   eat
+1   V1_SIMPLE_FUTURE   pickle
+1   V1_SIMPLE_FUTURE   say
+1   V1_SIMPLE_FUTURE   like
+1   V1_SIMPLE_FUTURE   want
+1   V1_SIMPLE_FUTURE   kiss
+
+
+1   V1_PERFECT eaten
+1   V1_PERFECT pickled
+1   V1_PERFECT said
+1   V1_PERFECT liked
+1   V1_PERFECT wanted
+1   V1_PERFECT kissed
+
+
+1   V1_PROGRESSIVE   eating
+1   V1_PROGRESSIVE   pickling
+1   V1_PROGRESSIVE   saying
+1   V1_PROGRESSIVE   liking
+1   V1_PROGRESSIVE   wanting
+1   V1_PROGRESSIVE   kissing
+
+
 
